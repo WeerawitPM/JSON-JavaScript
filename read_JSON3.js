@@ -20,7 +20,7 @@ function appendData(data) {
         var tr = document.createElement("tr");
         tr.innerHTML = `
         <tr>
-            <th scope="row">${data[i].sid}</th>
+            <th scope="row" id="${data[i].sid}">${data[i].sid}</th>
             <td><img src="${data[i].img}" class="rounded-circle"
                     style="width: 70px; height: 70px;" alt="Avatar" /></td>
             <td>${data[i].firstname}</td>
@@ -314,4 +314,27 @@ function acceptAddData() {
 
 function denyAddData() {
     Swal.close();
+}
+
+//ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
+function searchData() {
+    var input = document.getElementById("searchInput").value;
+
+    var url = "https://rest-api-teaching-weerawitpm.vercel.app/student/find?sid=" + input;
+
+    async function getData() {
+        var mainData = document.getElementById("data");
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            //clear data
+            mainData.innerHTML = "";
+            //append data
+            appendData(data);
+        } catch (err) {
+            mainData.innerHTML = "";
+            console.log(err);
+        }
+    }
+    getData();
 }
