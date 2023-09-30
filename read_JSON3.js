@@ -76,31 +76,31 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" class="form-control" id="firstname" value="${firstname}">
+                    <input type="text" class="form-control" id="firstname" value="${firstname}" required>
                 </div>
                 <div class="mb-3">
                     <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" class="form-control" id="lastname" value="${lastname}">
+                    <input type="text" class="form-control" id="lastname" value="${lastname}" required>
                 </div>
                 <div class="mb-3">
                     <label for="nickname" class="form-label">Nickname</label>
-                    <input type="text" class="form-control" id="nickname" value="${nickname}">
+                    <input type="text" class="form-control" id="nickname" value="${nickname}" required>
                 </div>
                 <div class="mb-3">
                     <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" value="${age}">
+                    <input type="number" class="form-control" id="age" value="${age}" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="${email}">
+                    <input type="email" class="form-control" id="email" value="${email}" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" value="${phone}">
+                    <input type="tel" class="form-control" id="phone" value="${phone}" required>
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Image URL</label>
-                    <input type="url" class="form-control" id="img" value="${img}">
+                    <input type="url" class="form-control" id="img" value="${img}" required>
                 </div>
             </form>
         `,
