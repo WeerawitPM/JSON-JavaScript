@@ -164,12 +164,9 @@ function deleteData(sid) {
         title: 'คุณแน่ใจนะ ว่าจะลบข้อมูล?',
         text: "การดำเนินการนี้จะไม่สามารถย้อนกลับได้!",
         icon: 'warning',
-
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
+        showDenyButton: true,
         confirmButtonText: 'ใช่, ฉันต้องการลบ!',
-        cancelButtonText: 'ไม่, ยกเลิก!',
+        denyButtonText: 'ไม่, ยกเลิก!',
     }).then((result) => {
         if (result.isConfirmed) {
             try {
@@ -196,12 +193,7 @@ function deleteData(sid) {
                 })
             }
         } else if (result.isDenied) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Not Deleted!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            Swal.close();
         }
     })
 }
@@ -211,7 +203,6 @@ function addData() {
     Swal.fire({
         title: 'Add Student Data',
         html: `
-            <div class="" role="alert" id="alert"></div>
             <form class="text-start" action="javascript:acceptAddData()">
                 <div class="mb-3">
                     <label for="sid" class="form-label">Student ID</label>
@@ -245,6 +236,7 @@ function addData() {
                     <label for="img" class="form-label">Image URL</label>
                     <input type="url" class="form-control" id="img" required>
                 </div>
+                <div class="" role="alert" id="alert"></div>
                 <div class="mb-3 d-flex justify-content-center">
                     <button type="submit" class="btn btn-lg btn-outline-primary mx-1">เพิ่มข้อมูล</button>
                     <button type="button" class="btn btn-lg btn-outline-danger mx-1" onclick="denyAddData()">ยกเลิก</button>
