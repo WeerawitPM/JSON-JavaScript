@@ -1,5 +1,6 @@
 const jsonData = "https://rest-api-teaching-weerawitpm.vercel.app/student/get";
 
+//ฟังก์ชันสำหรับดึงข้อมูลจาก JSON มาแสดงผล
 async function getData() {
     try {
         const response = await fetch(jsonData);
@@ -11,6 +12,7 @@ async function getData() {
 }
 getData();
 
+//ฟังก์ชันสำหรับแสดงผลข้อมูลที่ดึงมาจาก JSON
 function appendData(data) {
     var mainData = document.getElementById("data");
 
@@ -37,6 +39,7 @@ function appendData(data) {
     }
 }
 
+//ฟังก์ชันสำหรับแสดงข้อมูลรายละเอียดของนักเรียน
 function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
     Swal.fire({
         title: 'Student ID: ' + sid,
@@ -61,6 +64,7 @@ function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
     })
 }
 
+//ฟังก์ชันสำหรับแก้ไขข้อมูลนักเรียน
 function updateData(sid, firstname, lastname, nickname, age, email, phone, img) {
     Swal.fire({
         title: 'Update Student Data',
@@ -159,6 +163,7 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
     })
 }
 
+//ฟังก์ชันสำหรับลบข้อมูลนักเรียน
 function deleteData(sid) {
     Swal.fire({
         title: 'คุณแน่ใจนะ ว่าจะลบข้อมูล?',
@@ -206,6 +211,7 @@ function deleteData(sid) {
     })
 }
 
+//ฟังก์ชันสำหรับเพิ่มข้อมูลนักเรียน
 function addData() {
     Swal.fire({
         title: 'Add Student Data',
@@ -213,7 +219,7 @@ function addData() {
             <form class="text-start">
                 <div class="mb-3">
                     <label for="sid" class="form-label">Student ID</label>
-                    <input type="text" class="form-control" id="sid" required>
+                    <input type="text" class="form-control" id="sid">
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Firstname</label>
@@ -260,40 +266,48 @@ function addData() {
             var phone = document.getElementById("phone").value;
             var img = document.getElementById("img").value;
 
-            var data = {
-                "sid": sid,
-                "firstname": firstname,
-                "lastname": lastname,
-                "nickname": nickname,
-                "age": age,
-                "email": email,
-                "phone": phone,
-                "img": img
-            }
-
-            try {
-                fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/add', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Saved!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    location.reload();
-                })
-            } catch (err) {
-                console.log(err);
+            if (sid == "" || firstname == "" || lastname == "" || nickname == "" || age == "" || email == "" || phone == "" || img == "") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Something went wrong!',
+                    text: 'กรุณากรอกข้อมูลให้ครบ!',
                 })
+            } else {
+                var data = {
+                    "sid": sid,
+                    "firstname": firstname,
+                    "lastname": lastname,
+                    "nickname": nickname,
+                    "age": age,
+                    "email": email,
+                    "phone": phone,
+                    "img": img
+                }
+
+                try {
+                    fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/add', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Saved!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    })
+                } catch (err) {
+                    console.log(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
+                }
             }
         } else if (result.isDenied) {
             Swal.fire({
