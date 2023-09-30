@@ -72,7 +72,7 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
             <form class="text-start">
                 <div class="mb-3">
                     <label for="sid" class="form-label">Student ID</label>
-                    <input type="text" class="form-control" id="sid" value="${sid}" disabled>
+                    <input type="number" class="form-control" id="sid" value="${sid}" disabled>
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Firstname</label>
@@ -153,12 +153,7 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
                 })
             }
         } else if (result.isDenied) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Not Saved!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            Swal.close();
         }
     })
 }
@@ -216,106 +211,107 @@ function addData() {
     Swal.fire({
         title: 'Add Student Data',
         html: `
-            <form class="text-start">
+            <div class="" role="alert" id="alert"></div>
+            <form class="text-start" action="javascript:acceptAddData()">
                 <div class="mb-3">
                     <label for="sid" class="form-label">Student ID</label>
-                    <input type="text" class="form-control" id="sid">
+                    <input type="text" class="form-control" id="sid" required>
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" class="form-control" id="firstname">
+                    <input type="text" class="form-control" id="firstname" required>
                 </div>
                 <div class="mb-3">
                     <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" class="form-control" id="lastname">
+                    <input type="text" class="form-control" id="lastname" required>
                 </div>
                 <div class="mb-3">
                     <label for="nickname" class="form-label">Nickname</label>
-                    <input type="text" class="form-control" id="nickname">
+                    <input type="text" class="form-control" id="nickname" required>
                 </div>
                 <div class="mb-3">
                     <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age">
+                    <input type="number" class="form-control" id="age" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone">
+                    <input type="tel" class="form-control" id="phone" required>
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Image URL</label>
-                    <input type="url" class="form-control" id="img">
+                    <input type="url" class="form-control" id="img" required>
+                </div>
+                <div class="mb-3 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-lg btn-outline-primary mx-1">เพิ่มข้อมูล</button>
+                    <button type="button" class="btn btn-lg btn-outline-danger mx-1" onclick="denyAddData()">ยกเลิก</button>
                 </div>
             </form>
         `,
         showCloseButton: true,
-        showDenyButton: true,
-        confirmButtonText: 'Save',
-        denyButtonText: `Don't save`,
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var sid = document.getElementById("sid").value;
-            var firstname = document.getElementById("firstname").value;
-            var lastname = document.getElementById("lastname").value;
-            var nickname = document.getElementById("nickname").value;
-            var age = parseInt(document.getElementById("age").value);
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
-            var img = document.getElementById("img").value;
+        showConfirmButton: false,
+        showDenyButton: false,
+    })
+}
 
-            if (sid == "" || firstname == "" || lastname == "" || nickname == "" || age == "" || email == "" || phone == "" || img == "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'กรุณากรอกข้อมูลให้ครบ!',
-                })
-            } else {
-                var data = {
-                    "sid": sid,
-                    "firstname": firstname,
-                    "lastname": lastname,
-                    "nickname": nickname,
-                    "age": age,
-                    "email": email,
-                    "phone": phone,
-                    "img": img
-                }
+function acceptAddData() {
+    var sid = document.getElementById("sid").value;
+    var firstname = document.getElementById("firstname").value;
+    var lastname = document.getElementById("lastname").value;
+    var nickname = document.getElementById("nickname").value;
+    var age = parseInt(document.getElementById("age").value);
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    var img = document.getElementById("img").value;
 
-                try {
-                    fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/add', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(data)
-                    });
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Saved!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        location.reload();
-                    })
-                } catch (err) {
-                    console.log(err);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                    })
-                }
-            }
-        } else if (result.isDenied) {
+    if (sid == "" || firstname == "" || lastname == "" || nickname == "" || age == "" || email == "" || phone == "" || img == "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'กรุณากรอกข้อมูลให้ครบ!',
+        })
+    } else {
+        var data = {
+            "sid": sid,
+            "firstname": firstname,
+            "lastname": lastname,
+            "nickname": nickname,
+            "age": age,
+            "email": email,
+            "phone": phone,
+            "img": img
+        }
+
+        try {
+            fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/add', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
             Swal.fire({
-                icon: 'info',
-                title: 'Not Saved!',
+                icon: 'success',
+                title: 'Saved!',
                 showConfirmButton: false,
                 timer: 1500
+            }).then(() => {
+                location.reload();
+            })
+        } catch (err) {
+            console.log(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
             })
         }
-    })
+    }
+}
+
+function denyAddData() {
+    Swal.close();
 }
