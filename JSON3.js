@@ -1,59 +1,42 @@
-const jsonData = "https://rest-api-teaching-weerawitpm.vercel.app/student/get";
+// ตรวจสอบว่ามีข้อมูลใน LocalStorage หรือไม่
+var data = [];
+
+const jsonData = localStorage.getItem("data");
+if (jsonData) {
+    data = JSON.parse(jsonData);
+} else {
+    // ถ้าไม่มีข้อมูลใน LocalStorage ให้กำหนดให้ data เป็นอาร์เรย์ว่าง
+    localStorage.setItem("data", []);
+    data = [];
+}
 
 //ฟังก์ชันสำหรับดึงข้อมูลจาก JSON มาแสดงผล
-async function getData() {
-    //ระหว่างรอข้อมูลมา ให้แสดงข้อความ Loading...
-    var mainData = document.getElementById("data");
-    mainData.innerHTML = `
-        <tr>
-            <td colspan="6" class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </td>
-        </tr>
-    `
-    //ดึงข้อมูลมาแสดงผล
-    try {
-        const response = await fetch(jsonData);
-        const data = await response.json();
-        //clear data
-        mainData.innerHTML = "";
-        //append data
-        appendData(data);
-    } catch (err) {
-        mainData.innerHTML = "";
-        console.log(err);
-    }
-}
-getData();
-
-//ฟังก์ชันสำหรับแสดงผลข้อมูลที่ดึงมาจาก JSON
-function appendData(data) {
+function getData() {
     var mainData = document.getElementById("data");
 
     for (var i = 0; i < data.length; i++) {
         var tr = document.createElement("tr");
         tr.innerHTML = `
-        <tr>
-            <th scope="row" id="${data[i].sid}">${data[i].sid}</th>
-            <td><img src="${data[i].img}" class="rounded-circle"
-                    style="width: 70px; height: 70px;" alt="Avatar" /></td>
-            <td>${data[i].firstname}</td>
-            <td>${data[i].lastname}</td>
-            <td>${data[i].nickname}</td>
-            <td style="height: 50px;">
-                <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
-                    <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
-                    <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
-                    <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
-                </div>
-            </td>
-        </tr>
-        `
+    <tr>
+        <th scope="row">${data[i].sid}</th>
+        <td><img src="${data[i].img}" class="rounded-circle"
+                style="width: 70px; height: 70px;" alt="Avatar" /></td>
+        <td>${data[i].firstname}</td>
+        <td>${data[i].lastname}</td>
+        <td>${data[i].nickname}</td>
+        <td style="height: 50px;">
+            <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
+                <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
+                <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
+                <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
+            </div>
+        </td>
+    </tr>
+    `
         mainData.appendChild(tr);
     }
 }
+getData();
 
 //ฟังก์ชันสำหรับแสดงข้อมูลรายละเอียดของนักเรียน
 function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
@@ -126,48 +109,40 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
         denyButtonText: `Don't save`,
     }).then((result) => {
         if (result.isConfirmed) {
+            var sid = document.getElementById("sid").value;
             var firstname = document.getElementById("firstname").value;
             var lastname = document.getElementById("lastname").value;
             var nickname = document.getElementById("nickname").value;
-            var age = parseInt(document.getElementById("age").value);
+            var age = document.getElementById("age").value;
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
             var img = document.getElementById("img").value;
 
-            var data = {
-                "firstname": firstname,
-                "lastname": lastname,
-                "nickname": nickname,
-                "age": age,
-                "email": email,
-                "phone": phone,
-                "img": img
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].sid == sid) {
+                    data[i].firstname = firstname;
+                    data[i].lastname = lastname;
+                    data[i].nickname = nickname;
+                    data[i].age = age;
+                    data[i].email = email;
+                    data[i].phone = phone;
+                    data[i].img = img;
+                }
             }
 
-            try {
-                fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/update?sid=' + sid, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Saved!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    location.reload();
-                })
-            } catch (err) {
-                console.log(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
-            }
+            localStorage.setItem("data", JSON.stringify(data));
+
+            Swal.fire({
+                title: 'Saved!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+            //แสดงข้อมูลใหม่
+            document.getElementById("data").innerHTML = "";
+            getData();
+
         } else if (result.isDenied) {
             Swal.close();
         }
@@ -185,29 +160,24 @@ function deleteData(sid) {
         denyButtonText: 'ไม่, ยกเลิก!',
     }).then((result) => {
         if (result.isConfirmed) {
-            try {
-                fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/delete?sid=' + sid, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Deleted!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    location.reload();
-                })
-            } catch (err) {
-                console.log(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].sid == sid) {
+                    data.splice(i, 1);
+                    localStorage.setItem("data", JSON.stringify(data));
+                }
             }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Deleted!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+            //แสดงข้อมูลใหม่
+            document.getElementById("data").innerHTML = "";
+            getData();
+
         } else if (result.isDenied) {
             Swal.close();
         }
@@ -222,7 +192,7 @@ function addData() {
             <form class="text-start" action="javascript:acceptAddData()">
                 <div class="mb-3">
                     <label for="sid" class="form-label">Student ID</label>
-                    <input type="text" class="form-control" id="sid" required>
+                    <input type="number" class="form-control" id="sid" required>
                 </div>
                 <div class="mb-3">
                     <label for="firstname" class="form-label">Firstname</label>
@@ -270,54 +240,47 @@ function acceptAddData() {
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var nickname = document.getElementById("nickname").value;
-    var age = parseInt(document.getElementById("age").value);
+    var age = document.getElementById("age").value;
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
     var img = document.getElementById("img").value;
 
-    if (sid == "" || firstname == "" || lastname == "" || nickname == "" || age == "" || email == "" || phone == "" || img == "") {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'กรุณากรอกข้อมูลให้ครบ!',
-        })
-    } else {
-        var data = {
-            "sid": sid,
-            "firstname": firstname,
-            "lastname": lastname,
-            "nickname": nickname,
-            "age": age,
-            "email": email,
-            "phone": phone,
-            "img": img
-        }
-
-        try {
-            fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/add', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
-            Swal.fire({
-                icon: 'success',
-                title: 'Saved!',
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                location.reload();
-            })
-        } catch (err) {
-            console.log(err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-            })
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].sid == sid) {
+            document.getElementById("alert").innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>ขออภัย!</strong> ไม่สามารถเพิ่มข้อมูลได้ เนื่องจากมีรหัสนักเรียนนี้อยู่แล้ว
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `
+            return;
         }
     }
+
+    data.push({
+        sid: sid,
+        firstname: firstname,
+        lastname: lastname,
+        nickname: nickname,
+        age: age,
+        email: email,
+        phone: phone,
+        img: img
+    });
+
+    localStorage.setItem("data", JSON.stringify(data));
+
+    Swal.fire({
+        title: 'Saved!',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+    })
+
+    //แสดงข้อมูลใหม่
+    document.getElementById("data").innerHTML = "";
+    getData();
+    Swal.close();
 }
 
 function denyAddData() {
@@ -327,22 +290,30 @@ function denyAddData() {
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
     var input = document.getElementById("searchInput").value;
-
-    var url = "https://rest-api-teaching-weerawitpm.vercel.app/student/find?sid=" + input;
-
-    async function getData() {
-        var mainData = document.getElementById("data");
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            //clear data
-            mainData.innerHTML = "";
-            //append data
-            appendData(data);
-        } catch (err) {
-            mainData.innerHTML = "";
-            console.log(err);
+    var mainData = document.getElementById("data");
+    mainData.innerHTML = "";
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].sid == input) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = `
+            <tr>
+                <th scope="row">${data[i].sid}</th>
+                <td><img src="${data[i].img}" class="rounded-circle"
+                        style="width: 70px; height: 70px;" alt="Avatar" /></td>
+                <td>${data[i].firstname}</td>
+                <td>${data[i].lastname}</td>
+                <td>${data[i].nickname}</td>
+                <td style="height: 50px;">
+                    <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
+                        <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
+                        <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
+                        <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            `
+            mainData.appendChild(tr);
+            return;
         }
     }
-    getData();
 }
