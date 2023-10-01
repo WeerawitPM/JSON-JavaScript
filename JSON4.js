@@ -147,7 +147,7 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
 
             try {
                 fetch('https://rest-api-teaching-weerawitpm.vercel.app/student/update?sid=' + sid, {
-                    method: "PUT",
+                    method: "PATCH",
                     headers: {
                         "Content-Type": "application/json"
                     },
