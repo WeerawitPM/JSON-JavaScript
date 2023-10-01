@@ -331,7 +331,7 @@ function denyAddData() {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = document.getElementById("searchInput").value;
+    var input = parseInt(document.getElementById("searchInput").value);
 
     var url = "https://rest-api-teaching-weerawitpm.vercel.app/student/find?sid=" + input;
 
@@ -339,7 +339,7 @@ function searchData() {
         var mainData = document.getElementById("data");
         try {
             const response = await fetch(url);
-            const data = await response.json();
+            data = await response.json();
             //clear data
             mainData.innerHTML = "";
             //append data
