@@ -2,11 +2,27 @@ const jsonData = "https://rest-api-teaching-weerawitpm.vercel.app/student/get";
 
 //ฟังก์ชันสำหรับดึงข้อมูลจาก JSON มาแสดงผล
 async function getData() {
+    //ระหว่างรอข้อมูลมา ให้แสดงข้อความ Loading...
+    var mainData = document.getElementById("data");
+    mainData.innerHTML = `
+        <tr>
+            <td colspan="6" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </td>
+        </tr>
+    `
+    //ดึงข้อมูลมาแสดงผล
     try {
         const response = await fetch(jsonData);
         const data = await response.json();
+        //clear data
+        mainData.innerHTML = "";
+        //append data
         appendData(data);
     } catch (err) {
+        mainData.innerHTML = "";
         console.log(err);
     }
 }

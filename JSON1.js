@@ -268,14 +268,14 @@ function acceptAddData() {
     }
 
     data.push({
-        "sid": sid,
-        "firstname": firstname,
-        "lastname": lastname,
-        "nickname": nickname,
-        "age": age,
-        "email": email,
-        "phone": phone,
-        "img": img
+        sid: sid,
+        firstname: firstname,
+        lastname: lastname,
+        nickname: nickname,
+        age: age,
+        email: email,
+        phone: phone,
+        img: img
     });
 
     Swal.fire({
