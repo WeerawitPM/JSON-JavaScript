@@ -1,5 +1,5 @@
 // ตรวจสอบว่ามีข้อมูลใน LocalStorage หรือไม่
-var data = [];
+let data = [];
 
 const jsonData = localStorage.getItem("data");
 if (jsonData) {
@@ -12,10 +12,10 @@ if (jsonData) {
 
 //ฟังก์ชันสำหรับดึงข้อมูลจาก JSON มาแสดงผล
 function getData() {
-    var mainData = document.getElementById("data");
+    let mainData = document.getElementById("data");
 
-    for (var i = 0; i < data.length; i++) {
-        var tr = document.createElement("tr");
+    for (let i = 0; i < data.length; i++) {
+        let tr = document.createElement("tr");
         tr.innerHTML = `
     <tr>
         <th scope="row">${data[i].sid}</th>
@@ -109,16 +109,16 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
         denyButtonText: `Don't save`,
     }).then((result) => {
         if (result.isConfirmed) {
-            var sid = parseInt(document.getElementById("sid").value);
-            var firstname = document.getElementById("firstname").value;
-            var lastname = document.getElementById("lastname").value;
-            var nickname = document.getElementById("nickname").value;
-            var age = parseInt(document.getElementById("age").value);
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
-            var img = document.getElementById("img").value;
+            let sid = parseInt(document.getElementById("sid").value);
+            let firstname = document.getElementById("firstname").value;
+            let lastname = document.getElementById("lastname").value;
+            let nickname = document.getElementById("nickname").value;
+            let age = parseInt(document.getElementById("age").value);
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let img = document.getElementById("img").value;
 
-            for (var i = 0; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 if (data[i].sid == sid) {
                     data[i].firstname = firstname;
                     data[i].lastname = lastname;
@@ -160,7 +160,7 @@ function deleteData(sid) {
         denyButtonText: 'ไม่, ยกเลิก!',
     }).then((result) => {
         if (result.isConfirmed) {
-            for (var i = 0; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 if (data[i].sid == sid) {
                     data.splice(i, 1);
                     localStorage.setItem("data", JSON.stringify(data));
@@ -236,16 +236,16 @@ function addData() {
 }
 
 function acceptAddData() {
-    var sid = parseInt(document.getElementById("sid").value);
-    var firstname = document.getElementById("firstname").value;
-    var lastname = document.getElementById("lastname").value;
-    var nickname = document.getElementById("nickname").value;
-    var age = parseInt(document.getElementById("age").value);
-    var email = document.getElementById("email").value;
-    var phone = document.getElementById("phone").value;
-    var img = document.getElementById("img").value;
+    let sid = parseInt(document.getElementById("sid").value);
+    let firstname = document.getElementById("firstname").value;
+    let lastname = document.getElementById("lastname").value;
+    let nickname = document.getElementById("nickname").value;
+    let age = parseInt(document.getElementById("age").value);
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let img = document.getElementById("img").value;
 
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         if (data[i].sid == sid) {
             document.getElementById("alert").innerHTML = `
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -289,12 +289,12 @@ function denyAddData() {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = parseInt(document.getElementById("searchInput").value);
-    var mainData = document.getElementById("data");
+    let input = parseInt(document.getElementById("searchInput").value);
+    let mainData = document.getElementById("data");
     mainData.innerHTML = "";
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         if (data[i].sid == input) {
-            var tr = document.createElement("tr");
+            let tr = document.createElement("tr");
             tr.innerHTML = `
             <tr>
                 <th scope="row">${data[i].sid}</th>

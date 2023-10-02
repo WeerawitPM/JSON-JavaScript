@@ -14,10 +14,10 @@ getData();
 
 //ฟังก์ชันสำหรับแสดงผลข้อมูลที่ดึงมาจาก JSON
 function appendData(data) {
-    var mainData = document.getElementById("data");
+    let mainData = document.getElementById("data");
 
-    for (var i = 0; i < data.length; i++) {
-        var tr = document.createElement("tr");
+    for (let i = 0; i < data.length; i++) {
+        let tr = document.createElement("tr");
         tr.innerHTML = `
         <tr>
             <th scope="row">${data[i].sid}</th>
@@ -64,7 +64,7 @@ function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = parseInt(document.getElementById("searchInput").value);
+    let input = parseInt(document.getElementById("searchInput").value);
     async function getData() {
         try {
             const response = await fetch(jsonData);
@@ -77,11 +77,11 @@ function searchData() {
     getData();
 
     function searchData2(data) {
-        var mainData = document.getElementById("data");
+        let mainData = document.getElementById("data");
         mainData.innerHTML = "";
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             if(input == data[i].sid) {
-                var tr = document.createElement("tr");
+                let tr = document.createElement("tr");
                 tr.innerHTML = `
                 <tr>
                     <th scope="row">${data[i].sid}</th>
