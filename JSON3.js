@@ -109,11 +109,11 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
         denyButtonText: `Don't save`,
     }).then((result) => {
         if (result.isConfirmed) {
-            var sid = document.getElementById("sid").value;
+            var sid = parseInt(document.getElementById("sid").value);
             var firstname = document.getElementById("firstname").value;
             var lastname = document.getElementById("lastname").value;
             var nickname = document.getElementById("nickname").value;
-            var age = document.getElementById("age").value;
+            var age = parseInt(document.getElementById("age").value);
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
             var img = document.getElementById("img").value;
@@ -236,11 +236,11 @@ function addData() {
 }
 
 function acceptAddData() {
-    var sid = document.getElementById("sid").value;
+    var sid = parseInt(document.getElementById("sid").value);
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var nickname = document.getElementById("nickname").value;
-    var age = document.getElementById("age").value;
+    var age = parseInt(document.getElementById("age").value);
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
     var img = document.getElementById("img").value;
@@ -289,7 +289,7 @@ function denyAddData() {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = document.getElementById("searchInput").value;
+    var input = parseInt(document.getElementById("searchInput").value);
     var mainData = document.getElementById("data");
     mainData.innerHTML = "";
     for (var i = 0; i < data.length; i++) {

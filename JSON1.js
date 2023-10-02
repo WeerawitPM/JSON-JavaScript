@@ -1,7 +1,7 @@
 // ประกาศตัวแปรเก็บข้อมูล JSON ในรูปแบบของ String
 const jsonData = `[
     {
-        "sid": "63030079",
+        "sid": 63030079,
         "firstname": "Weerawit",
         "lastname": "Phumphuang",
         "nickname": "Mew",
@@ -30,22 +30,22 @@ function getData() {
     for (var i = 0; i < data.length; i++) {
         var tr = document.createElement("tr");
         tr.innerHTML = `
-    <tr>
-        <th scope="row">${data[i].sid}</th>
-        <td><img src="${data[i].img}" class="rounded-circle"
-                style="width: 70px; height: 70px;" alt="Avatar" /></td>
-        <td>${data[i].firstname}</td>
-        <td>${data[i].lastname}</td>
-        <td>${data[i].nickname}</td>
-        <td style="height: 50px;">
-            <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
-                <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
-                <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
-                <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
-            </div>
-        </td>
-    </tr>
-    `
+        <tr>
+            <th scope="row">${data[i].sid}</th>
+            <td><img src="${data[i].img}" class="rounded-circle"
+                    style="width: 70px; height: 70px;" alt="Avatar" /></td>
+            <td>${data[i].firstname}</td>
+            <td>${data[i].lastname}</td>
+            <td>${data[i].nickname}</td>
+            <td style="height: 50px;">
+                <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
+                    <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
+                    <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
+                    <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
+                </div>
+            </td>
+        </tr>
+        `
         mainData.appendChild(tr);
     }
 }
@@ -122,11 +122,11 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
         denyButtonText: `Don't save`,
     }).then((result) => {
         if (result.isConfirmed) {
-            var sid = document.getElementById("sid").value;
+            var sid = parseInt(document.getElementById("sid").value);
             var firstname = document.getElementById("firstname").value;
             var lastname = document.getElementById("lastname").value;
             var nickname = document.getElementById("nickname").value;
-            var age = document.getElementById("age").value;
+            var age = parseInt(document.getElementById("age").value);
             var email = document.getElementById("email").value;
             var phone = document.getElementById("phone").value;
             var img = document.getElementById("img").value;
@@ -246,11 +246,11 @@ function addData() {
 }
 
 function acceptAddData() {
-    var sid = document.getElementById("sid").value;
+    var sid = parseInt(document.getElementById("sid").value);
     var firstname = document.getElementById("firstname").value;
     var lastname = document.getElementById("lastname").value;
     var nickname = document.getElementById("nickname").value;
-    var age = document.getElementById("age").value;
+    var age = parseInt(document.getElementById("age").value);
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
     var img = document.getElementById("img").value;
@@ -297,7 +297,7 @@ function denyAddData() {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = document.getElementById("searchInput").value;
+    var input = parseInt(document.getElementById("searchInput").value);
     var mainData = document.getElementById("data");
     mainData.innerHTML = "";
     for (var i = 0; i < data.length; i++) {

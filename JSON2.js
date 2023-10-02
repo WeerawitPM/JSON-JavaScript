@@ -64,7 +64,7 @@ function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
 
 //ฟังก์ชันสำหรับค้นหาข้อมูลนักเรียน
 function searchData() {
-    var input = document.getElementById("searchInput").value;
+    var input = parseInt(document.getElementById("searchInput").value);
     async function getData() {
         try {
             const response = await fetch(jsonData);

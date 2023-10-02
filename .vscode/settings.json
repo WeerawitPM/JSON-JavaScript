@@ -1,4 +1,5 @@
 {
     "editor.bracketPairColorization.independentColorPoolPerBracketType": false,
-    "workbench.colorCustomizations": {}
+    "workbench.colorCustomizations": {},
+    "liveServer.settings.port": 5501
 }
