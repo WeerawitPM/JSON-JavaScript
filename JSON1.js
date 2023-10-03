@@ -321,7 +321,6 @@ function searchData() {
             </tr>
             `
             mainData.appendChild(tr);
-            return;
         }
     }
 }

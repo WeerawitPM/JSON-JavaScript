@@ -45,7 +45,7 @@ function appendData() {
             <td>${data[i].nickname}</td>
             <td style="height: 50px;">
                 <div class="d-flex justify-content-center align-items-center flex-wrap" style="height: 100%;">
-                    <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">View</button>
+                    <button type="button" class="btn btn-outline-primary m-1" onclick="viewData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}','${data[i].createdAt}')">View</button>
                     <button type="button" class="btn btn-outline-warning m-1" onclick="updateData('${data[i].sid}','${data[i].firstname}','${data[i].lastname}','${data[i].nickname}','${data[i].age}','${data[i].email}','${data[i].phone}','${data[i].img}')">Edit</button>
                     <button type="button" class="btn btn-outline-danger m-1" onclick="deleteData(${data[i].sid})">Delete</button>
                 </div>
@@ -57,7 +57,7 @@ function appendData() {
 }
 
 //ฟังก์ชันสำหรับแสดงข้อมูลรายละเอียดของนักเรียน
-function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
+function viewData(sid, firstname, lastname, nickname, age, email, phone, img, createdAt) {
     Swal.fire({
         title: 'Student ID: ' + sid,
         html: `
@@ -69,6 +69,7 @@ function viewData(sid, firstname, lastname, nickname, age, email, phone, img) {
                     <p class="card-text mb-0 text-start">อายุ : ${age}</p>
                     <p class="card-text mb-0 text-start">Email : ${email}</p>
                     <p class="card-text mb-0 text-start">Phone : ${phone}</p>
+                    <p class="card-text mb-0 text-start">Created At : ${createdAt}</p>
                 </div>
             
         `,
