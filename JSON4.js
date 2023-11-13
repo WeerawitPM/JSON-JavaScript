@@ -160,7 +160,7 @@ function updateData(sid, firstname, lastname, nickname, age, email, phone, img) 
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    location.reload();
+                    getData();
                 })
             } catch (err) {
                 console.log(err);
@@ -200,7 +200,7 @@ function deleteData(sid) {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    location.reload();
+                    getData();
                 })
             } catch (err) {
                 console.log(err);
@@ -314,7 +314,7 @@ function acceptAddData() {
             showConfirmButton: false,
             timer: 1500
         }).then(() => {
-            location.reload();
+            getData();
         })
     } catch (err) {
         console.log(err);
